@@ -1,0 +1,48 @@
+package ${packagePath}.controller;
+
+import ${packagePath}.service.${entityClassName}Service;
+import ${packagePath}.dto.${entityClassName}Dto;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@AllArgsConstructor  
+public class ${entityClassName}Controller {
+
+    private final ${entityClassName}Service ${entityName}Service;
+
+    @GetMapping("/${entityPluralName}/{${entityIdName}}")
+    public ResponseEntity<${entityClassName}Dto> get${entityClassName}(@PathVariable ${entityIdTypeName} ${entityIdName}){
+       
+        ${entityClassName}Dto ${entityName} = ${entityName}Service.get${entityClassName}ById(${entityIdName});
+        return ResponseEntity.ok(${entityName});
+    }
+    @GetMapping("/${entityPluralName}")
+    public ResponseEntity<List<${entityClassName}Dto>> get${entityClassName}List(){
+       
+        List<${entityClassName}Dto> ${entityName}List = ${entityName}Service.get${entityClassName}List();
+        return ResponseEntity.ok(${entityName}List);
+    }
+
+    @PostMapping("/${entityPluralName}")
+    public ResponseEntity<${entityClassName}Dto> create${entityClassName}(${entityClassName}Dto ${entityName}){
+        ${entityClassName}Dto ${entityName}Dto = ${entityName}Service.create${entityClassName}(${entityName});
+        return ResponseEntity.ok(${entityName});
+    }
+
+    @PutMapping("/${entityPluralName}")
+    public ResponseEntity<${entityClassName}Dto> update${entityClassName}(${entityClassName}Dto ${entityName}){
+        ${entityClassName}Dto ${entityName}Dto = ${entityName}Service.update${entityClassName}(${entityName});
+        return ResponseEntity.ok(${entityName});
+    }
+
+    @DeleteMapping("/${entityPluralName}/{${entityIdName}}")
+    public ResponseEntity<${entityIdTypeName}> delete${entityClassName}(@PathVariable ${entityIdTypeName} ${entityIdName}){
+        ${entityName}Service.delete${entityClassName}ById(${entityIdName});
+        return ResponseEntity.ok(${entityIdName});
+    }
+
+}

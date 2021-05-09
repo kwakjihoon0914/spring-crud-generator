@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</head>
+
+<body>
+
+    <form>
+        - packagePath
+        <input name="packagePath" type="text" value="com.gy.tg" /><br />
+        - mapperUtilPackagePath
+        <input name="mapperUtilPackagePath" type="text" value="com.gy.tg.generator.util" /><br />
+        - entityClassName
+        <input name="entityClassName" type="text" value="Test" /><br />
+        - entityTableName
+        <input name="entityTableName" type="text" value="TB_TEST" /><br />
+
+        - entityIdName
+        <input name="entityIdName" type="text" value="testId" /><br />
+        - entityIdTypeName
+        <input name="entityIdTypeName" type="text" value="Long" /><br />
+        - entityIdColumnName
+        <input name="entityIdColumnName" type="text" value="TEST_ID" /><br />
+
+    </form>
+    <button id="create-entity">create</button>
+    <button id="create-entity-file">download-file</button>
+
+
+
+    <h3>entity</h3>
+    <code class="prettyprint" id="template-entity" style="width: 100%; height: 200px;"></code>
+
+    <h3>dto</h3>
+    <code class="prettyprint" id="template-dto" style="width: 100%; height: 200px;"></code>
+
+
+
+    <h3>controller</h3>
+    <code class="prettyprint" id="template-controller" style="width: 100%; height: 200px;"></code>
+
+    <h3>repository</h3>
+    <code class="prettyprint" id="template-repository" style="width: 100%; height: 200px;"></code>
+
+    <h3>service</h3>
+    <code class="prettyprint" id="template-service" style="width: 100%; height: 200px;"></code>
+
+    <h3>serviceImpl</h3>
+    <code class="prettyprint" id="template-serviceImpl" style="width: 100%; height: 200px;"></code>
+
+
+    <script>
+
+        function createFormJSON(){
+            let packagePath = document.querySelector("input[name='packagePath']").value;
+            let mapperUtilPackagePath = document.querySelector("input[name='mapperUtilPackagePath']").value;
+            let entityClassName = document.querySelector("input[name='entityClassName']").value;
+            let entityTableName = document.querySelector("input[name='entityTableName']").value;
+
+            let entityIdName = document.querySelector("input[name='entityIdName']").value;
+            let entityIdTypeName = document.querySelector("input[name='entityIdTypeName']").value;
+            let entityIdColumnName = document.querySelector("input[name='entityIdColumnName']").value;
+            return {
+                packagePath,
+                mapperUtilPackagePath,
+                entityClassName,
+                entityTableName,
+                entityIdTypeName,
+                entityIdName,
+                entityIdTypeName,
+                entityIdColumnName
+
+            }
+        }
+
+        document.getElementById("create-entity-file").addEventListener("click", function () {
+           
+            let formJSON = createFormJSON();
+            axios.post("/create-file", formJSON, { responseType: 'blob' })
+                .then(res => {
+                    const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/zip' }));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', res.headers["content-disposition"].split("filename=")[1]);
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+
+        })
+
+        document.getElementById("create-entity").addEventListener("click", function () {
+
+            let formJSON = createFormJSON();
+            axios.post("/create",formJSON)
+                .then(res => {
+                    document.getElementById("template-entity").innerText = res.data.Entity;
+                    document.getElementById("template-controller").innerText = res.data.Contoller;
+                    document.getElementById("template-repository").innerText = res.data.Repository;
+                    document.getElementById("template-dto").innerText = res.data.Dto;
+                    document.getElementById("template-service").innerText = res.data.Service;
+                    document.getElementById("template-serviceImpl").innerText = res.data.ServiceImpl;
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        })
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+package ${packagePath}.dto;
+
+import ${mapperUtilPackagePath}.MapperUtil;
+import ${packagePath}.entity.${entityClassName};
+import lombok.Data;
+
+@Data  
+public class ${entityClassName}Dto{
+
+    private ${entityIdTypeName} ${entityIdName};
+
+
+    public static ${entityClassName}Dto of(${entityClassName} ${entityName}){
+        return MapperUtil.map(${entityName},${entityClassName}Dto.class);
+    } 
+
+}

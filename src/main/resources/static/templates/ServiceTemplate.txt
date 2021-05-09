@@ -1,0 +1,14 @@
+package ${packagePath}.service;
+
+import java.util.List;
+import ${packagePath}.dto.${entityClassName}Dto;
+
+public interface ${entityClassName}Service {
+
+    List<${entityClassName}Dto> get${entityClassName}List();
+    ${entityClassName}Dto get${entityClassName}ById(${entityIdTypeName} ${entityIdName});
+    ${entityClassName}Dto update${entityClassName}(${entityClassName}Dto ${entityName});
+    ${entityClassName}Dto create${entityClassName}(${entityClassName}Dto ${entityName});
+    ${entityIdTypeName} delete${entityClassName}ById(${entityIdTypeName} ${entityIdName});
+
+}

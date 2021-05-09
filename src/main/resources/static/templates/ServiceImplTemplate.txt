@@ -1,0 +1,43 @@
+package ${packagePath}.service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import ${packagePath}.repository.${entityClassName}Repository;
+import ${packagePath}.dto.${entityClassName}Dto;
+import ${packagePath}.entity.${entityClassName};
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor  
+public class ${entityClassName}ServiceImpl implements ${entityClassName}Service{
+
+    private final ${entityClassName}Repository ${entityName}Repository;
+
+    public List<${entityClassName}Dto> get${entityClassName}List(){
+        return ${entityName}Repository.findAll()
+                                        .stream().map(${entityClassName}Dto::of)
+                                        .collect(Collectors.toList());
+    }
+    public ${entityClassName}Dto get${entityClassName}ById(${entityIdTypeName} ${entityIdName}){
+        return ${entityClassName}Dto.of(${entityName}Repository.findById(${entityIdName}).get());
+    }
+
+    public ${entityClassName}Dto update${entityClassName}(${entityClassName}Dto ${entityName}Dto){
+
+        ${entityClassName} created = ${entityClassName}.of(${entityName}Dto);
+        return  ${entityClassName}Dto.of(${entityName}Repository.save(created));
+    }
+    public ${entityClassName}Dto create${entityClassName}(${entityClassName}Dto ${entityName}Dto){
+
+        ${entityClassName} updated = ${entityClassName}.of(${entityName}Dto);
+        return  ${entityClassName}Dto.of(${entityName}Repository.save(updated));
+    }
+    public ${entityIdTypeName} delete${entityClassName}ById(${entityIdTypeName} ${entityIdName}){
+        ${entityName}Repository.deleteById(${entityIdName});
+        return ${entityIdName};
+    }
+
+}

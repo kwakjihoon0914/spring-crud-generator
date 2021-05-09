@@ -1,0 +1,28 @@
+package ${packagePath}.entity;
+
+import ${mapperUtilPackagePath}.MapperUtil;
+import ${packagePath}.dto.${entityClassName}Dto;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+
+@Entity
+@Table(name="${entityTableName}")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  
+public class ${entityClassName}{
+
+    @Id
+    @Column(name = "${entityIdColumnName}")
+    private ${entityIdTypeName} ${entityIdName};
+
+    
+    public static ${entityClassName} of(${entityClassName}Dto ${entityName}Dto){
+        return MapperUtil.map(${entityName}Dto,${entityClassName}.class);
+    }
+
+}
